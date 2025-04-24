@@ -1,0 +1,18 @@
+from langchain_groq import ChatGroq
+from langchain.schema import SystemMessage, HumanMessage
+import os
+
+class LLMEmotionAnalyzer:
+    """ Uses Groq’s Llama 3 via LangChain to refine emotion classification. """
+
+    def __init__(self):
+        self.llm = ChatGroq(api_key=os.getenv("GROQ_API_KEY"), model_name="llama3-8b")
+
+    def analyze(self, text):
+        """ Use LLM to extract nuanced emotions from feedback. """
+        prompt = [
+            SystemMessage(content="You are an AI specializing in emotional sentiment analysis."),
+            HumanMessage(content=f"Analyze this feedback: {text}")
+        ]
+        response = self.llm.invoke(prompt)
+        return response.content.strip()
